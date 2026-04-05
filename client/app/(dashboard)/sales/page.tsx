@@ -4,10 +4,24 @@ import { Card, StatCard } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import {
-  BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid,
-  Tooltip, ResponsiveContainer, Legend,
+  BarChart,
+  Bar,
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Legend,
 } from "recharts";
-import { TrendingUp, IndianRupee, Users, BarChart2, Download } from "lucide-react";
+import {
+  TrendingUp,
+  IndianRupee,
+  Users,
+  BarChart2,
+  Download,
+} from "lucide-react";
 
 const dailyData = [
   { date: "25 Mar", revenue: 18400, patients: 22 },
@@ -52,13 +66,22 @@ export default function SalesPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-text-primary">Sales Dashboard</h1>
-          <p className="mt-1 text-sm text-text-muted">Revenue tracking and distribution across all branches.</p>
+          <h1 className="text-2xl font-bold text-text-primary">
+            Sales Dashboard
+          </h1>
+          <p className="mt-1 text-sm text-text-muted">
+            Revenue tracking and distribution across all branches.
+          </p>
         </div>
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-1 p-1 bg-bg-elevated border border-border rounded-xl">
             {["7D", "30D", "90D"].map((p) => (
-              <button key={p} className={`px-3 py-1 text-xs font-medium rounded-lg transition-all duration-200 ${p === "7D" ? "bg-neon-purple text-white" : "text-text-muted hover:text-text-secondary"}`}>{p}</button>
+              <button
+                key={p}
+                className={`px-3 py-1 text-xs font-medium rounded-lg transition-all duration-200 ${p === "7D" ? "bg-neon-purple text-white" : "text-text-muted hover:text-text-secondary"}`}
+              >
+                {p}
+              </button>
             ))}
           </div>
           <Button variant="secondary" size="sm">
@@ -70,49 +93,160 @@ export default function SalesPage() {
 
       {/* KPI cards */}
       <div className="grid grid-cols-4 gap-4">
-        <StatCard label="Revenue MTD" value="₹4,53,000" delta="+7.8% vs target" deltaType="up" icon={<IndianRupee size={17} />} accent="#8b5cf6" />
-        <StatCard label="Patients MTD" value="1,284" delta="+12% this month" deltaType="up" icon={<Users size={17} />} accent="#06b6d4" />
-        <StatCard label="Avg. Ticket Size" value="₹353" delta="+3.2% vs last month" deltaType="up" icon={<TrendingUp size={17} />} accent="#10b981" />
-        <StatCard label="Best Branch" value="Patna" delta="₹2.4L this month" deltaType="neutral" icon={<BarChart2 size={17} />} accent="#f59e0b" />
+        <StatCard
+          label="Revenue MTD"
+          value="₹4,53,000"
+          delta="+7.8% vs target"
+          deltaType="up"
+          icon={<IndianRupee size={17} />}
+          accent="#8b5cf6"
+        />
+        <StatCard
+          label="Patients MTD"
+          value="1,284"
+          delta="+12% this month"
+          deltaType="up"
+          icon={<Users size={17} />}
+          accent="#06b6d4"
+        />
+        <StatCard
+          label="Avg. Ticket Size"
+          value="₹353"
+          delta="+3.2% vs last month"
+          deltaType="up"
+          icon={<TrendingUp size={17} />}
+          accent="#10b981"
+        />
+        <StatCard
+          label="Best Branch"
+          value="Patna"
+          delta="₹2.4L this month"
+          deltaType="neutral"
+          icon={<BarChart2 size={17} />}
+          accent="#f59e0b"
+        />
       </div>
 
       {/* Charts row */}
       <div className="grid grid-cols-2 gap-6">
         {/* Daily revenue */}
         <Card padding="lg">
-          <h2 className="text-sm font-semibold text-text-primary mb-1">Daily Revenue (Last 7 Days)</h2>
+          <h2 className="text-sm font-semibold text-text-primary mb-1">
+            Daily Revenue (Last 7 Days)
+          </h2>
           <p className="text-xs text-text-muted mb-4">Revenue in INR per day</p>
           <ResponsiveContainer width="100%" height={200}>
-            <BarChart data={dailyData} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
-              <XAxis dataKey="date" tick={{ fontSize: 11, fill: "#606080" }} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fontSize: 11, fill: "#606080" }} axisLine={false} tickLine={false} tickFormatter={formatINR} />
+            <BarChart
+              data={dailyData}
+              margin={{ top: 0, right: 0, left: -20, bottom: 0 }}
+            >
+              <CartesianGrid
+                strokeDasharray="3 3"
+                stroke="rgba(255,255,255,0.04)"
+              />
+              <XAxis
+                dataKey="date"
+                tick={{ fontSize: 11, fill: "#606080" }}
+                axisLine={false}
+                tickLine={false}
+              />
+              <YAxis
+                tick={{ fontSize: 11, fill: "#606080" }}
+                axisLine={false}
+                tickLine={false}
+                tickFormatter={formatINR}
+              />
               <Tooltip
-                contentStyle={{ background: "#1a1a26", border: "1px solid rgba(139,92,246,0.25)", borderRadius: "12px", color: "#f0f0ff", fontSize: 12 }}
-                formatter={(v: number) => [`₹${v.toLocaleString()}`, "Revenue"]}
+                contentStyle={{
+                  background: "#1a1a26",
+                  border: "1px solid rgba(139,92,246,0.25)",
+                  borderRadius: "12px",
+                  color: "#f0f0ff",
+                  fontSize: 12,
+                }}
+                formatter={(value) => {
+                  const num = typeof value === "number" ? value : Number(value);
+                  const formatted = Number.isFinite(num)
+                    ? `₹${num.toLocaleString()}`
+                    : String(value ?? "");
+                  return [formatted, "Revenue"] as [string, string];
+                }}
                 cursor={{ fill: "rgba(139,92,246,0.06)" }}
               />
-              <Bar dataKey="revenue" fill="#8b5cf6" radius={[6, 6, 0, 0]} maxBarSize={32} />
+              <Bar
+                dataKey="revenue"
+                fill="#8b5cf6"
+                radius={[6, 6, 0, 0]}
+                maxBarSize={32}
+              />
             </BarChart>
           </ResponsiveContainer>
         </Card>
 
         {/* Monthly revenue vs target */}
         <Card padding="lg">
-          <h2 className="text-sm font-semibold text-text-primary mb-1">Monthly Revenue vs Target</h2>
-          <p className="text-xs text-text-muted mb-4">Last 7 months performance</p>
+          <h2 className="text-sm font-semibold text-text-primary mb-1">
+            Monthly Revenue vs Target
+          </h2>
+          <p className="text-xs text-text-muted mb-4">
+            Last 7 months performance
+          </p>
           <ResponsiveContainer width="100%" height={200}>
-            <LineChart data={monthlyData} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
-              <XAxis dataKey="month" tick={{ fontSize: 11, fill: "#606080" }} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fontSize: 11, fill: "#606080" }} axisLine={false} tickLine={false} tickFormatter={formatINR} />
-              <Tooltip
-                contentStyle={{ background: "#1a1a26", border: "1px solid rgba(139,92,246,0.25)", borderRadius: "12px", color: "#f0f0ff", fontSize: 12 }}
-                formatter={(v: number) => [`₹${v.toLocaleString()}`]}
+            <LineChart
+              data={monthlyData}
+              margin={{ top: 0, right: 0, left: -20, bottom: 0 }}
+            >
+              <CartesianGrid
+                strokeDasharray="3 3"
+                stroke="rgba(255,255,255,0.04)"
               />
-              <Legend iconType="circle" wrapperStyle={{ fontSize: 11, color: "#606080" }} />
-              <Line type="monotone" dataKey="revenue" stroke="#8b5cf6" strokeWidth={2.5} dot={{ fill: "#8b5cf6", r: 3 }} name="Revenue" />
-              <Line type="monotone" dataKey="target" stroke="#06b6d4" strokeWidth={2} strokeDasharray="5 3" dot={false} name="Target" />
+              <XAxis
+                dataKey="month"
+                tick={{ fontSize: 11, fill: "#606080" }}
+                axisLine={false}
+                tickLine={false}
+              />
+              <YAxis
+                tick={{ fontSize: 11, fill: "#606080" }}
+                axisLine={false}
+                tickLine={false}
+                tickFormatter={formatINR}
+              />
+              <Tooltip
+                contentStyle={{
+                  background: "#1a1a26",
+                  border: "1px solid rgba(139,92,246,0.25)",
+                  borderRadius: "12px",
+                  color: "#f0f0ff",
+                  fontSize: 12,
+                }}
+                formatter={(value) => {
+                  const num = typeof value === "number" ? value : Number(value);
+                  if (!Number.isFinite(num)) return value ?? "";
+                  return `₹${num.toLocaleString()}`;
+                }}
+              />
+              <Legend
+                iconType="circle"
+                wrapperStyle={{ fontSize: 11, color: "#606080" }}
+              />
+              <Line
+                type="monotone"
+                dataKey="revenue"
+                stroke="#8b5cf6"
+                strokeWidth={2.5}
+                dot={{ fill: "#8b5cf6", r: 3 }}
+                name="Revenue"
+              />
+              <Line
+                type="monotone"
+                dataKey="target"
+                stroke="#06b6d4"
+                strokeWidth={2}
+                strokeDasharray="5 3"
+                dot={false}
+                name="Target"
+              />
             </LineChart>
           </ResponsiveContainer>
         </Card>
@@ -122,14 +256,20 @@ export default function SalesPage() {
       <div className="grid grid-cols-2 gap-6">
         {/* Branch */}
         <Card padding="lg">
-          <h2 className="text-sm font-semibold text-text-primary mb-4">Revenue by Branch</h2>
+          <h2 className="text-sm font-semibold text-text-primary mb-4">
+            Revenue by Branch
+          </h2>
           <div className="space-y-3">
             {branchSales.map((b) => (
               <div key={b.branch}>
                 <div className="flex items-center justify-between mb-1.5">
-                  <span className="text-xs font-medium text-text-secondary">{b.branch}</span>
+                  <span className="text-xs font-medium text-text-secondary">
+                    {b.branch}
+                  </span>
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-bold text-text-primary">₹{b.revenue.toLocaleString()}</span>
+                    <span className="text-xs font-bold text-text-primary">
+                      ₹{b.revenue.toLocaleString()}
+                    </span>
                     <Badge variant="purple">{b.share}%</Badge>
                   </div>
                 </div>
@@ -146,17 +286,30 @@ export default function SalesPage() {
 
         {/* Service */}
         <Card padding="lg">
-          <h2 className="text-sm font-semibold text-text-primary mb-4">Revenue by Service</h2>
+          <h2 className="text-sm font-semibold text-text-primary mb-4">
+            Revenue by Service
+          </h2>
           <div className="space-y-2">
             {serviceBreakdown.map((s) => (
-              <div key={s.service} className="flex items-center gap-3 p-3 bg-bg-elevated rounded-xl border border-border">
+              <div
+                key={s.service}
+                className="flex items-center gap-3 p-3 bg-bg-elevated rounded-xl border border-border"
+              >
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs font-medium text-text-primary">{s.service}</p>
-                  <p className="text-[10px] text-text-muted mt-0.5">{s.count} cases</p>
+                  <p className="text-xs font-medium text-text-primary">
+                    {s.service}
+                  </p>
+                  <p className="text-[10px] text-text-muted mt-0.5">
+                    {s.count} cases
+                  </p>
                 </div>
                 <div className="text-right">
-                  <p className="text-sm font-bold text-text-primary">₹{s.revenue.toLocaleString()}</p>
-                  <p className="text-[10px] text-text-muted">avg ₹{Math.round(s.revenue / s.count).toLocaleString()}/case</p>
+                  <p className="text-sm font-bold text-text-primary">
+                    ₹{s.revenue.toLocaleString()}
+                  </p>
+                  <p className="text-[10px] text-text-muted">
+                    avg ₹{Math.round(s.revenue / s.count).toLocaleString()}/case
+                  </p>
                 </div>
               </div>
             ))}
